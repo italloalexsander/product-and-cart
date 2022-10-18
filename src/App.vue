@@ -1,7 +1,7 @@
 <template>
   <header class="top-bar spread">
         <nav class="top-bar-nav">
-          <router-link to="/">
+          <router-link to="/" class="top-bar-link">
             <i class="icofont-spoon-and-fork"></i>
             <span>Home</span>
           </router-link>
