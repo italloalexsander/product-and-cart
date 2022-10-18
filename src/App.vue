@@ -12,13 +12,60 @@
             <span>Past Orders</span>
           </router-link>
         </nav>
-        <!-- <router-link @click="toggleSidebar" class="top-bar-cart-link">
+        <div @click="toggleSidebar" class="top-bar-cart-link">
           <i class="icofont-cart-alt icofont-1x"></i>
           <span>Cart ({{ totalQuantity }})</span>
-        </router-link> -->
+        </div>
       </header>
-  <router-view/>
+  <router-view :inventory="inventory"/>
+  <SideBar
+    v-if="showSideBar"
+    :toggle="toggleSidebar"
+    :cart="cart"
+    :inventory="inventory"
+    :remove="removeItem"
+  />
 </template>
 
-<style>
-</style>
+<script>
+import SideBar from '@/components/SideBar.vue'
+import food from './food.json'
+
+export default {
+  components: {
+    SideBar
+  },
+  data () {
+    return {
+      showSideBar: true,
+      inventory: food,
+      cart: {}
+    }
+  },
+  computed: {
+    totalQuantity () {
+      return Object.values(this.cart).reduce((acc, curr) => {
+        return acc + curr
+      }, 0)
+    }
+  },
+  methods: {
+    addToCart (name, index) {
+      if (!this.cart[name]) this.cart[name] = 0
+      this.cart[name] += this.inventory[index].quantity
+      this.inventory[index].quantity = 0
+    },
+    toggleSidebar () {
+      this.showSideBar = !this.showSideBar
+    },
+    removeItem (key) {
+      delete this.cart[key]
+    }
+  },
+  async mounted () {
+    const res = await fetch('./food.json')
+    const data = await res.json()
+    this.inventory = data
+  }
+}
+</script>
