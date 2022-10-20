@@ -3,8 +3,8 @@
     <div class="card-title">
         {{ product.name }}
         </div>
-        <div class="card-body">
-            <i class="icofont-10x icofont-{{product.icon}}"></i>
+        <div class="card-body {{icon}}">
+            <i :class="'icofont-10x icofont-' + product.icon"></i>
             <form>
             <div class="row">
                 <div class="cell">
